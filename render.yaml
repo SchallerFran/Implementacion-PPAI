@@ -27,6 +27,8 @@ services:
         fromDatabase: { name: bolsines-db, property: user }
       - key: DB_PASSWORD
         fromDatabase: { name: bolsines-db, property: password }
+      - key: CORS_ORIGINS # dominio del frontend en Vercel, ej: https://bolsines.vercel.app (varios separados por coma)
+        sync: false
       - key: GPS_BASE_URL # URL pública del servicio bolsines-gps, ej: https://bolsines-gps.onrender.com
         sync: false
       - key: GPS_API_KEY_XTR # las mismas API keys que GpsMock/src/main/resources/application.properties
