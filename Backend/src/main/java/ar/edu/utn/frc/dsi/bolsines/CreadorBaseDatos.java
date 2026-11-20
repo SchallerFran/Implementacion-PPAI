@@ -39,10 +39,8 @@ class CreadorBaseDatos implements ApplicationListener<ApplicationEnvironmentPrep
             }
             log.info("Base de datos '{}' creada", nombre);
         } catch (SQLException e) {
-            // En hostings con PostgreSQL administrado (ej. Render) la base ya existe y puede no haber acceso a "postgres":
-            // se sigue y, si la base realmente no está disponible, falla la conexión de Hibernate con su propio error.
-            log.warn("No se pudo verificar/crear la base '{}' desde {} ({}). Se asume que ya existe; si no, revise "
-                    + "que PostgreSQL esté iniciado y los valores DB_* de Backend/.env", nombre, urlAdmin, e.getMessage());
+            throw new IllegalStateException("No se pudo conectar a PostgreSQL en " + urlAdmin
+                    + ". Revise que el servicio esté iniciado y los valores DB_* de Backend/.env: " + e.getMessage(), e);
         }
     }
 }
