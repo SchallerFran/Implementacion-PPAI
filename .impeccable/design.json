@@ -1,0 +1,570 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-20T17:23:56.656Z",
+  "title": "Design System: Bolsines",
+  "extensions": {
+    "colorMeta": {
+      "azul-900": {
+        "role": "primary",
+        "displayName": "Azul Noche",
+        "canonical": "#12324f",
+        "tonalRamp": [
+          "#050f18",
+          "#091928",
+          "#0d2337",
+          "#12324f",
+          "#597084",
+          "#94a3b0",
+          "#c4ccd3",
+          "#e7ebed"
+        ]
+      },
+      "azul-700": {
+        "role": "primary",
+        "displayName": "Azul Institucional",
+        "canonical": "#1f4e79",
+        "tonalRamp": [
+          "#091724",
+          "#10273d",
+          "#163755",
+          "#1f4e79",
+          "#6283a1",
+          "#9aafc3",
+          "#c7d3de",
+          "#e9edf2"
+        ]
+      },
+      "azul-600": {
+        "role": "primary",
+        "displayName": "Azul Medio",
+        "canonical": "#2e74b5",
+        "tonalRamp": [
+          "#0e2336",
+          "#173a5b",
+          "#20517f",
+          "#2e74b5",
+          "#6d9ecb",
+          "#a1c0de",
+          "#cbdced",
+          "#eaf1f8"
+        ]
+      },
+      "azul-400": {
+        "role": "primary",
+        "displayName": "Azul Claro",
+        "canonical": "#5b9bd5",
+        "tonalRamp": [
+          "#1b2f40",
+          "#2e4e6b",
+          "#406d95",
+          "#5b9bd5",
+          "#8cb9e2",
+          "#b5d2ec",
+          "#d6e6f5",
+          "#eff5fb"
+        ]
+      },
+      "azul-200": {
+        "role": "primary",
+        "displayName": "Azul Bruma",
+        "canonical": "#b7d3ee",
+        "tonalRamp": [
+          "#373f47",
+          "#5c6a77",
+          "#8094a7",
+          "#b7d3ee",
+          "#cde0f3",
+          "#dfebf7",
+          "#edf4fb",
+          "#f8fbfd"
+        ]
+      },
+      "amarillo": {
+        "role": "secondary",
+        "displayName": "Amarillo Correo",
+        "canonical": "#f2c230",
+        "tonalRamp": [
+          "#493a0e",
+          "#796118",
+          "#a98822",
+          "#f2c230",
+          "#f6d46e",
+          "#f9e4a2",
+          "#fcf0cb",
+          "#fef9ea"
+        ]
+      },
+      "amarillo-100": {
+        "role": "secondary",
+        "displayName": "Amarillo Destello",
+        "canonical": "#fdf3cf",
+        "tonalRamp": [
+          "#493a0e",
+          "#796118",
+          "#a98822",
+          "#f2c230",
+          "#f6d46e",
+          "#f9e4a2",
+          "#fcf0cb",
+          "#fef9ea"
+        ]
+      },
+      "verde": {
+        "role": "tertiary",
+        "displayName": "Verde Mapa",
+        "canonical": "#5e9e4b",
+        "tonalRamp": [
+          "#1c2f17",
+          "#2f4f26",
+          "#426f35",
+          "#5e9e4b",
+          "#8ebb81",
+          "#b7d3ae",
+          "#d7e7d2",
+          "#eff5ed"
+        ]
+      },
+      "verde-100": {
+        "role": "tertiary",
+        "displayName": "Verde Pálido",
+        "canonical": "#e2f0db",
+        "tonalRamp": [
+          "#1c2f17",
+          "#2f4f26",
+          "#426f35",
+          "#5e9e4b",
+          "#8ebb81",
+          "#b7d3ae",
+          "#d7e7d2",
+          "#eff5ed"
+        ]
+      },
+      "verde-ink": {
+        "role": "tertiary",
+        "displayName": "Verde Tinta",
+        "canonical": "#2c5e1f",
+        "tonalRamp": [
+          "#1c2f17",
+          "#2f4f26",
+          "#426f35",
+          "#5e9e4b",
+          "#8ebb81",
+          "#b7d3ae",
+          "#d7e7d2",
+          "#eff5ed"
+        ]
+      },
+      "naranja-100": {
+        "role": "tertiary",
+        "displayName": "Naranja Pálido",
+        "canonical": "#fbe7d3",
+        "tonalRamp": [
+          "#43290e",
+          "#704517",
+          "#9d6120",
+          "#e08a2e",
+          "#e9ad6d",
+          "#f1caa1",
+          "#f7e2cb",
+          "#fcf3ea"
+        ]
+      },
+      "naranja-50": {
+        "role": "tertiary",
+        "displayName": "Naranja Fondo",
+        "canonical": "#fff7ee",
+        "tonalRamp": [
+          "#43290e",
+          "#704517",
+          "#9d6120",
+          "#e08a2e",
+          "#e9ad6d",
+          "#f1caa1",
+          "#f7e2cb",
+          "#fcf3ea"
+        ]
+      },
+      "naranja-ink": {
+        "role": "tertiary",
+        "displayName": "Naranja Tinta",
+        "canonical": "#8a4a0e",
+        "tonalRamp": [
+          "#43290e",
+          "#704517",
+          "#9d6120",
+          "#e08a2e",
+          "#e9ad6d",
+          "#f1caa1",
+          "#f7e2cb",
+          "#fcf3ea"
+        ]
+      },
+      "rojo": {
+        "role": "tertiary",
+        "displayName": "Rojo Baja",
+        "canonical": "#b3403a",
+        "tonalRamp": [
+          "#361311",
+          "#5a201d",
+          "#7d2d29",
+          "#b3403a",
+          "#ca7975",
+          "#dda9a6",
+          "#eccfce",
+          "#f7eceb"
+        ]
+      },
+      "rojo-100": {
+        "role": "tertiary",
+        "displayName": "Rojo Pálido",
+        "canonical": "#f6dedc",
+        "tonalRamp": [
+          "#361311",
+          "#5a201d",
+          "#7d2d29",
+          "#b3403a",
+          "#ca7975",
+          "#dda9a6",
+          "#eccfce",
+          "#f7eceb"
+        ]
+      },
+      "rojo-ink": {
+        "role": "tertiary",
+        "displayName": "Rojo Tinta",
+        "canonical": "#8e2c27",
+        "tonalRamp": [
+          "#361311",
+          "#5a201d",
+          "#7d2d29",
+          "#b3403a",
+          "#ca7975",
+          "#dda9a6",
+          "#eccfce",
+          "#f7eceb"
+        ]
+      },
+      "cielo-100": {
+        "role": "neutral",
+        "displayName": "Cielo",
+        "canonical": "#dcebf7",
+        "tonalRamp": [
+          "#42474a",
+          "#6e767c",
+          "#9aa5ad",
+          "#dcebf7",
+          "#e7f1f9",
+          "#eff6fb",
+          "#f6fafd",
+          "#fcfdfe"
+        ]
+      },
+      "cielo-50": {
+        "role": "neutral",
+        "displayName": "Cielo Fondo",
+        "canonical": "#eef5fb",
+        "tonalRamp": [
+          "#474a4b",
+          "#777b7e",
+          "#a7acb0",
+          "#eef5fb",
+          "#f3f8fc",
+          "#f7fbfd",
+          "#fbfdfe",
+          "#fdfeff"
+        ]
+      },
+      "tinta": {
+        "role": "neutral",
+        "displayName": "Tinta",
+        "canonical": "#152536",
+        "tonalRamp": [
+          "#060b10",
+          "#0b131b",
+          "#0f1a26",
+          "#152536",
+          "#5b6672",
+          "#969da5",
+          "#c5c9cd",
+          "#e8e9eb"
+        ]
+      },
+      "tinta-2": {
+        "role": "neutral",
+        "displayName": "Tinta Secundaria",
+        "canonical": "#46596c",
+        "tonalRamp": [
+          "#151b20",
+          "#232d36",
+          "#313e4c",
+          "#46596c",
+          "#7e8b98",
+          "#acb4bd",
+          "#d1d6da",
+          "#edeef0"
+        ]
+      },
+      "linea": {
+        "role": "neutral",
+        "displayName": "Línea",
+        "canonical": "#c8d9ea",
+        "tonalRamp": [
+          "#3c4146",
+          "#646d75",
+          "#8c98a4",
+          "#c8d9ea",
+          "#d9e4f0",
+          "#e6eef6",
+          "#f1f6fa",
+          "#fafbfd"
+        ]
+      },
+      "linea-suave": {
+        "role": "neutral",
+        "displayName": "Línea Suave",
+        "canonical": "#e2ecf5",
+        "tonalRamp": [
+          "#3c4146",
+          "#646d75",
+          "#8c98a4",
+          "#c8d9ea",
+          "#d9e4f0",
+          "#e6eef6",
+          "#f1f6fa",
+          "#fafbfd"
+        ]
+      },
+      "blanco": {
+        "role": "neutral",
+        "displayName": "Blanco",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "#474a4b",
+          "#777b7e",
+          "#a7acb0",
+          "#eef5fb",
+          "#f3f8fc",
+          "#f7fbfd",
+          "#fbfdfe",
+          "#fdfeff"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Solo la marca grande del login."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Título de página (h1)."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Cabecera de panel lateral y diálogo."
+      },
+      "subtitle": {
+        "displayName": "Subtitle",
+        "purpose": "Subtítulos de sección, botones, nombres de tramo."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Texto general."
+      },
+      "data": {
+        "displayName": "Data",
+        "purpose": "Celdas de tabla y datos con numerales tabulares."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Etiquetas de campo y encabezados de tabla, en caja normal."
+      }
+    },
+    "shadows": [
+      {
+        "name": "flotante",
+        "value": "0 1px 2px rgb(18 50 79 / 0.08), 0 6px 18px rgb(18 50 79 / 0.08)",
+        "purpose": "Panel lateral, tarjeta de información y nota sobre el mapa."
+      },
+      {
+        "name": "modal",
+        "value": "0 20px 50px rgb(18 50 79 / 0.3)",
+        "purpose": "Diálogo nativo, con velo rgb(18 50 79 / 0.45)."
+      },
+      {
+        "name": "pin",
+        "value": "-2px 3px 6px rgb(18 50 79 / 0.35)",
+        "purpose": "Marcadores del mapa."
+      },
+      {
+        "name": "halo",
+        "value": "0 0 0 3px #dcebf7",
+        "purpose": "Anillo del hito actual y del punto vigente del historial (verde-100 o naranja-100 al llegar)."
+      }
+    ],
+    "motion": [
+      {
+        "name": "estado",
+        "value": "0.15s ease-out",
+        "purpose": "Transiciones de color y borde en botones, campos, filas."
+      },
+      {
+        "name": "entrada",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Aparición de avisos (0.22s), panel (0.26s, desde 12px a la derecha), diálogo (0.22s) y pin activo (0.18s)."
+      },
+      {
+        "name": "viaje",
+        "value": "2.6s cubic-bezier(0.45, 0, 0.25, 1) infinite",
+        "purpose": "Móvil amarillo que avanza sobre la vía del tramo en tránsito (4s en el login)."
+      },
+      {
+        "name": "destello",
+        "value": "1.8s ease-out",
+        "purpose": "Fila actualizada que se tiñe de amarillo-100 y se apaga en su lugar."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "panel-abajo",
+        "value": "1180px"
+      },
+      {
+        "name": "tablet",
+        "value": "860px"
+      },
+      {
+        "name": "movil",
+        "value": "560px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Botón primario",
+      "kind": "button",
+      "refersTo": "button-primario",
+      "description": "Acción principal de una pantalla o panel (Generar bolsín, Filtrar, Ingresar).",
+      "html": "<button class=\"ds-btn ds-btn-primario\">Generar bolsín</button>",
+      "css": ":host{--azul-900:#12324f;--azul-700:#1f4e79;--azul-600:#2e74b5;--azul-400:#5b9bd5;--azul-200:#b7d3ee;--cielo-100:#dcebf7;--cielo-50:#eef5fb;--amarillo:#f2c230;--verde:#5e9e4b;--verde-100:#e2f0db;--verde-ink:#2c5e1f;--naranja-100:#fbe7d3;--naranja-ink:#8a4a0e;--rojo:#b3403a;--rojo-100:#f6dedc;--rojo-ink:#8e2c27;--tinta:#152536;--tinta-2:#46596c;--linea:#c8d9ea;--fuente-titulo:'Montserrat',Arial,sans-serif;--fuente:Arial,'Helvetica Neue',Helvetica,sans-serif}.ds-btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;height:38px;padding:0 16px;border-radius:6px;border:1px solid transparent;font:600 14px/1 var(--fuente-titulo);cursor:pointer;transition:background-color .15s ease-out,border-color .15s ease-out,color .15s ease-out}.ds-btn:focus-visible{outline:2px solid var(--azul-600);outline-offset:2px}.ds-btn-primario{background:var(--azul-700);color:#fff}.ds-btn-primario:hover{background:var(--azul-900)}"
+    },
+    {
+      "name": "Botón secundario",
+      "kind": "button",
+      "refersTo": "button-secundario",
+      "description": "Acciones de apoyo junto al primario (Buscar, Cancelar).",
+      "html": "<button class=\"ds-btn ds-btn-secundario\">Buscar</button>",
+      "css": ":host{--azul-900:#12324f;--azul-700:#1f4e79;--azul-600:#2e74b5;--azul-400:#5b9bd5;--azul-200:#b7d3ee;--cielo-100:#dcebf7;--cielo-50:#eef5fb;--amarillo:#f2c230;--verde:#5e9e4b;--verde-100:#e2f0db;--verde-ink:#2c5e1f;--naranja-100:#fbe7d3;--naranja-ink:#8a4a0e;--rojo:#b3403a;--rojo-100:#f6dedc;--rojo-ink:#8e2c27;--tinta:#152536;--tinta-2:#46596c;--linea:#c8d9ea;--fuente-titulo:'Montserrat',Arial,sans-serif;--fuente:Arial,'Helvetica Neue',Helvetica,sans-serif}.ds-btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;height:38px;padding:0 16px;border-radius:6px;border:1px solid transparent;font:600 14px/1 var(--fuente-titulo);cursor:pointer;transition:background-color .15s ease-out,border-color .15s ease-out,color .15s ease-out}.ds-btn:focus-visible{outline:2px solid var(--azul-600);outline-offset:2px}.ds-btn-secundario{background:#fff;color:var(--azul-700);border-color:var(--azul-200)}.ds-btn-secundario:hover{background:var(--cielo-50);border-color:var(--azul-400)}"
+    },
+    {
+      "name": "Botón peligro lleno",
+      "kind": "button",
+      "refersTo": "button-peligro-lleno",
+      "description": "Confirmar una baja o cancelación.",
+      "html": "<button class=\"ds-btn ds-btn-peligro\">Dar de baja</button>",
+      "css": ":host{--azul-900:#12324f;--azul-700:#1f4e79;--azul-600:#2e74b5;--azul-400:#5b9bd5;--azul-200:#b7d3ee;--cielo-100:#dcebf7;--cielo-50:#eef5fb;--amarillo:#f2c230;--verde:#5e9e4b;--verde-100:#e2f0db;--verde-ink:#2c5e1f;--naranja-100:#fbe7d3;--naranja-ink:#8a4a0e;--rojo:#b3403a;--rojo-100:#f6dedc;--rojo-ink:#8e2c27;--tinta:#152536;--tinta-2:#46596c;--linea:#c8d9ea;--fuente-titulo:'Montserrat',Arial,sans-serif;--fuente:Arial,'Helvetica Neue',Helvetica,sans-serif}.ds-btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;height:38px;padding:0 16px;border-radius:6px;border:1px solid transparent;font:600 14px/1 var(--fuente-titulo);cursor:pointer;transition:background-color .15s ease-out,border-color .15s ease-out,color .15s ease-out}.ds-btn:focus-visible{outline:2px solid var(--azul-600);outline-offset:2px}.ds-btn-peligro{background:var(--rojo);color:#fff}.ds-btn-peligro:hover{background:var(--rojo-ink)}"
+    },
+    {
+      "name": "Campo",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Etiqueta Montserrat sobre input de 38px.",
+      "html": "<label class=\"ds-campo\"><span>Número de precinto</span><input placeholder=\"P-500101\"></label>",
+      "css": ":host{--azul-900:#12324f;--azul-700:#1f4e79;--azul-600:#2e74b5;--azul-400:#5b9bd5;--azul-200:#b7d3ee;--cielo-100:#dcebf7;--cielo-50:#eef5fb;--amarillo:#f2c230;--verde:#5e9e4b;--verde-100:#e2f0db;--verde-ink:#2c5e1f;--naranja-100:#fbe7d3;--naranja-ink:#8a4a0e;--rojo:#b3403a;--rojo-100:#f6dedc;--rojo-ink:#8e2c27;--tinta:#152536;--tinta-2:#46596c;--linea:#c8d9ea;--fuente-titulo:'Montserrat',Arial,sans-serif;--fuente:Arial,'Helvetica Neue',Helvetica,sans-serif}.ds-campo{display:flex;flex-direction:column;gap:5px;width:220px;font-family:var(--fuente)}.ds-campo span{font:600 12.5px/1.2 var(--fuente-titulo);color:var(--tinta-2)}.ds-campo input{height:38px;padding:0 10px;border:1px solid var(--linea);border-radius:6px;background:#fff;font:14px var(--fuente);color:var(--tinta);transition:border-color .15s ease-out}.ds-campo input:hover{border-color:var(--azul-400)}.ds-campo input:focus-visible{outline:2px solid var(--azul-600);outline-offset:0;border-color:var(--azul-600)}"
+    },
+    {
+      "name": "Estados",
+      "kind": "chip",
+      "refersTo": "estado-transito",
+      "description": "Seis tonos de estado; el amarillo solo para tránsito.",
+      "html": "<span class=\"ds-estado ds-base\">Creado</span> <span class=\"ds-estado ds-firme\">Cerrado</span> <span class=\"ds-estado ds-transito\">Enviado</span> <span class=\"ds-estado ds-ok\">Recibido</span> <span class=\"ds-estado ds-alerta\">Parcial</span> <span class=\"ds-estado ds-baja\">De baja</span>",
+      "css": ":host{--azul-900:#12324f;--azul-700:#1f4e79;--azul-600:#2e74b5;--azul-400:#5b9bd5;--azul-200:#b7d3ee;--cielo-100:#dcebf7;--cielo-50:#eef5fb;--amarillo:#f2c230;--verde:#5e9e4b;--verde-100:#e2f0db;--verde-ink:#2c5e1f;--naranja-100:#fbe7d3;--naranja-ink:#8a4a0e;--rojo:#b3403a;--rojo-100:#f6dedc;--rojo-ink:#8e2c27;--tinta:#152536;--tinta-2:#46596c;--linea:#c8d9ea;--fuente-titulo:'Montserrat',Arial,sans-serif;--fuente:Arial,'Helvetica Neue',Helvetica,sans-serif}.ds-estado{display:inline-flex;align-items:center;height:22px;padding:0 8px;border-radius:4px;font:600 12px/1 var(--fuente-titulo);white-space:nowrap}.ds-base{background:var(--cielo-100);color:var(--azul-700)}.ds-firme{background:var(--azul-700);color:#fff}.ds-transito{background:var(--amarillo);color:var(--azul-900)}.ds-ok{background:var(--verde-100);color:var(--verde-ink)}.ds-alerta{background:var(--naranja-100);color:var(--naranja-ink)}.ds-baja{background:var(--rojo-100);color:var(--rojo-ink)}"
+    },
+    {
+      "name": "Navegación",
+      "kind": "nav",
+      "refersTo": "barra",
+      "description": "Barra azul de 60px con pestañas; la activa lleva subrayado blanco.",
+      "html": "<nav class=\"ds-barra\"><strong>Bolsines</strong><a href=\"#\" class=\"ds-activo\">Seguimiento</a><a href=\"#\">Bolsines</a><a href=\"#\">Remitos</a></nav>",
+      "css": ":host{--azul-900:#12324f;--azul-700:#1f4e79;--azul-600:#2e74b5;--azul-400:#5b9bd5;--azul-200:#b7d3ee;--cielo-100:#dcebf7;--cielo-50:#eef5fb;--amarillo:#f2c230;--verde:#5e9e4b;--verde-100:#e2f0db;--verde-ink:#2c5e1f;--naranja-100:#fbe7d3;--naranja-ink:#8a4a0e;--rojo:#b3403a;--rojo-100:#f6dedc;--rojo-ink:#8e2c27;--tinta:#152536;--tinta-2:#46596c;--linea:#c8d9ea;--fuente-titulo:'Montserrat',Arial,sans-serif;--fuente:Arial,'Helvetica Neue',Helvetica,sans-serif}.ds-barra{display:flex;align-items:stretch;gap:2px;height:60px;padding:0 20px 0 24px;background:var(--azul-700);color:#fff}.ds-barra strong{display:flex;align-items:center;margin-right:26px;font:700 18px var(--fuente-titulo)}.ds-barra a{position:relative;display:flex;align-items:center;padding:0 14px;color:rgb(255 255 255/.8);text-decoration:none;font:600 14px var(--fuente-titulo);transition:color .15s ease-out,background-color .15s ease-out}.ds-barra a:hover{color:#fff;background:rgb(255 255 255/.07)}.ds-barra a.ds-activo{color:#fff}.ds-barra a.ds-activo::after{content:'';position:absolute;left:12px;right:12px;bottom:0;height:3px;border-radius:3px 3px 0 0;background:#fff}.ds-barra a:focus-visible{outline:2px solid var(--amarillo);outline-offset:-4px}"
+    },
+    {
+      "name": "Escudo de ruta",
+      "kind": "custom",
+      "refersTo": "escudo",
+      "description": "Código de comisión médica como señal vial.",
+      "html": "<svg class=\"ds-escudo\" viewBox=\"0 0 48 46\" role=\"img\" aria-label=\"CM-CBA-01\"><path d=\"M2 2h44v29L24 44 2 31z\" fill=\"#1f4e79\"/><path d=\"M5.5 5.5h37v23.4L24 39.7 5.5 28.9z\" fill=\"none\" stroke=\"#fff\" stroke-width=\"1.6\"/><text x=\"24\" y=\"21\" font-size=\"12.5\">CBA</text><text x=\"24\" y=\"32\" font-size=\"8.5\">01</text></svg> <svg class=\"ds-escudo\" viewBox=\"0 0 48 46\" role=\"img\" aria-label=\"CM-ROS-02\"><path d=\"M2 2h44v29L24 44 2 31z\" fill=\"#1f4e79\"/><path d=\"M5.5 5.5h37v23.4L24 39.7 5.5 28.9z\" fill=\"none\" stroke=\"#fff\" stroke-width=\"1.6\"/><text x=\"24\" y=\"21\" font-size=\"12.5\">ROS</text><text x=\"24\" y=\"32\" font-size=\"8.5\">02</text></svg>",
+      "css": ":host{--azul-900:#12324f;--azul-700:#1f4e79;--azul-600:#2e74b5;--azul-400:#5b9bd5;--azul-200:#b7d3ee;--cielo-100:#dcebf7;--cielo-50:#eef5fb;--amarillo:#f2c230;--verde:#5e9e4b;--verde-100:#e2f0db;--verde-ink:#2c5e1f;--naranja-100:#fbe7d3;--naranja-ink:#8a4a0e;--rojo:#b3403a;--rojo-100:#f6dedc;--rojo-ink:#8e2c27;--tinta:#152536;--tinta-2:#46596c;--linea:#c8d9ea;--fuente-titulo:'Montserrat',Arial,sans-serif;--fuente:Arial,'Helvetica Neue',Helvetica,sans-serif}.ds-escudo{width:34px;height:33px;flex:none}.ds-escudo text{fill:#fff;font-family:var(--fuente-titulo);font-weight:700;text-anchor:middle}"
+    },
+    {
+      "name": "Tramo en tránsito",
+      "kind": "custom",
+      "refersTo": "tramo",
+      "description": "Origen → hitos de estado → destino; el hito actual en tránsito es amarillo.",
+      "html": "<div class=\"ds-tramo\"><svg class=\"ds-escudo\" viewBox=\"0 0 48 46\" role=\"img\" aria-label=\"CM-CBA-01\"><path d=\"M2 2h44v29L24 44 2 31z\" fill=\"#1f4e79\"/><path d=\"M5.5 5.5h37v23.4L24 39.7 5.5 28.9z\" fill=\"none\" stroke=\"#fff\" stroke-width=\"1.6\"/><text x=\"24\" y=\"21\" font-size=\"12.5\">CBA</text><text x=\"24\" y=\"32\" font-size=\"8.5\">01</text></svg><ol><li class=\"h\"><span></span></li><li class=\"h\"><span></span></li><li class=\"a\"><span></span></li><li><span></span></li></ol><svg class=\"ds-escudo\" viewBox=\"0 0 48 46\" role=\"img\" aria-label=\"CM-ROS-02\"><path d=\"M2 2h44v29L24 44 2 31z\" fill=\"#1f4e79\"/><path d=\"M5.5 5.5h37v23.4L24 39.7 5.5 28.9z\" fill=\"none\" stroke=\"#fff\" stroke-width=\"1.6\"/><text x=\"24\" y=\"21\" font-size=\"12.5\">ROS</text><text x=\"24\" y=\"32\" font-size=\"8.5\">02</text></svg></div>",
+      "css": ":host{--azul-900:#12324f;--azul-700:#1f4e79;--azul-600:#2e74b5;--azul-400:#5b9bd5;--azul-200:#b7d3ee;--cielo-100:#dcebf7;--cielo-50:#eef5fb;--amarillo:#f2c230;--verde:#5e9e4b;--verde-100:#e2f0db;--verde-ink:#2c5e1f;--naranja-100:#fbe7d3;--naranja-ink:#8a4a0e;--rojo:#b3403a;--rojo-100:#f6dedc;--rojo-ink:#8e2c27;--tinta:#152536;--tinta-2:#46596c;--linea:#c8d9ea;--fuente-titulo:'Montserrat',Arial,sans-serif;--fuente:Arial,'Helvetica Neue',Helvetica,sans-serif}.ds-escudo{width:34px;height:33px;flex:none}.ds-escudo text{fill:#fff;font-family:var(--fuente-titulo);font-weight:700;text-anchor:middle}.ds-tramo{display:flex;align-items:center;gap:4px;width:300px}.ds-tramo ol{display:flex;flex:1;list-style:none;margin:0;padding:0}.ds-tramo li{position:relative;flex:1;display:flex;justify-content:center}.ds-tramo li::before{content:'';position:absolute;top:6px;left:0;right:0;height:2px;background:var(--linea)}.ds-tramo li.h::before{background:var(--azul-700)}.ds-tramo li.a::before{background:linear-gradient(to right,var(--azul-700) 50%,var(--linea) 50%)}.ds-tramo span{position:relative;z-index:1;width:14px;height:14px;border-radius:50%;background:#fff;border:2px solid var(--linea)}.ds-tramo .h span{background:var(--azul-700);border-color:var(--azul-700);transform:scale(.72)}.ds-tramo .a span{background:var(--amarillo);border-color:var(--azul-900);box-shadow:0 0 0 3px var(--cielo-100)}"
+    },
+    {
+      "name": "Panel lateral",
+      "kind": "card",
+      "refersTo": "panel",
+      "description": "Panel de trabajo flotante junto a la tabla.",
+      "html": "<aside class=\"ds-panel\"><h2>Bolsín 101</h2><dl><dt>Precinto</dt><dd>P-500101</dd><dt>Peso</dt><dd>850 g</dd></dl></aside>",
+      "css": ":host{--azul-900:#12324f;--azul-700:#1f4e79;--azul-600:#2e74b5;--azul-400:#5b9bd5;--azul-200:#b7d3ee;--cielo-100:#dcebf7;--cielo-50:#eef5fb;--amarillo:#f2c230;--verde:#5e9e4b;--verde-100:#e2f0db;--verde-ink:#2c5e1f;--naranja-100:#fbe7d3;--naranja-ink:#8a4a0e;--rojo:#b3403a;--rojo-100:#f6dedc;--rojo-ink:#8e2c27;--tinta:#152536;--tinta-2:#46596c;--linea:#c8d9ea;--fuente-titulo:'Montserrat',Arial,sans-serif;--fuente:Arial,'Helvetica Neue',Helvetica,sans-serif}.ds-panel{width:340px;background:#fff;border:1px solid var(--linea);border-radius:8px;padding:18px 20px 22px;box-shadow:0 1px 2px rgb(18 50 79/.08),0 6px 18px rgb(18 50 79/.08);font:14px/1.45 var(--fuente);color:var(--tinta)}.ds-panel h2{margin:0 0 10px;font:700 18px var(--fuente-titulo);color:var(--azul-900)}.ds-panel dl{display:grid;grid-template-columns:128px 1fr;gap:6px 12px;margin:0}.ds-panel dt{color:var(--tinta-2)}.ds-panel dd{margin:0;font-variant-numeric:tabular-nums}"
+    }
+  ],
+  "narrative": {
+    "northStar": "La Hoja de Ruta",
+    "overview": "Cada bolsín es un tramo de ruta entre dos comisiones médicas, y toda la interfaz se lee así: un escudo de ruta de origen, una vía con hitos de estado y un escudo de destino. El sistema no usa tarjetas de métricas; los datos aparecen como recorrido, en tablas densas y en un panel lateral de trabajo. Es una herramienta de oficina para jornada completa: azul institucional en la barra, fondo cielo pálido, superficies blancas con filete azul claro y texto en tinta azulada.\n\nEl color de estado está racionado. El amarillo correo solo significa \"en tránsito\", el verde mapa solo significa \"recibido\", el naranja solo \"parcial o con alerta\" y el rojo solo \"baja o cancelado\". Todo lo demás es la familia azul. El mapa de Seguimiento (Leaflet con teselas de OpenStreetMap) se apaga con un filtro para que la paleta propia mande, y la atribución de OSM queda siempre visible.\n\nNada desaparece: un bolsín o remito de baja queda en la tabla, tachado y con su tramo en gris punteado. Un cambio de estado redibuja la fila en su lugar con un destello amarillo breve, sin mover la grilla.",
+    "keyCharacteristics": [
+      "Escudos de ruta (pentágono azul con filete blanco interno, Montserrat Bold) como identidad de cada comisión médica.",
+      "Tramo horizontal origen → hitos → destino como lectura principal del estado.",
+      "Historial como hoja de ruta vertical.",
+      "Montserrat para títulos, etiquetas y escudos; Arial para texto y tablas, con numerales tabulares.",
+      "Planos con filete; la sombra solo para lo que flota (panel, diálogo, notas sobre el mapa)."
+    ],
+    "rules": [
+      {
+        "name": "La Regla del Amarillo Correo",
+        "body": "El amarillo significa \"en tránsito\" y nada más. Si algo es amarillo y no está viajando, está mal. El subrayado de la navegación activa es blanco, no amarillo.",
+        "section": "colors"
+      },
+      {
+        "name": "La Regla de Un Color por Destino",
+        "body": "Verde = recibido, naranja = parcial/alerta, rojo = baja. Cada estado del dominio se mapea a uno de seis tonos (base, firme, tránsito, ok, alerta, baja) y nunca se inventa un séptimo.",
+        "section": "colors"
+      },
+      {
+        "name": "La Regla del Numeral Tabular",
+        "body": "Pesos, precintos, fechas y números de bolsín usan numerales tabulares; las columnas numéricas se alinean a la derecha.",
+        "section": "typography"
+      },
+      {
+        "name": "La Regla de la Caja Normal",
+        "body": "Ninguna etiqueta va en mayúsculas sostenidas ni con espaciado amplio; la jerarquía la dan peso y color.",
+        "section": "typography"
+      },
+      {
+        "name": "La Regla de lo que Flota",
+        "body": "Solo proyecta sombra lo que se superpone a otra cosa (panel pegajoso, diálogo, capas del mapa). Lo que vive en la grilla es plano.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** leer cada bolsín y remito como tramo: escudo de origen, hitos, escudo de destino.",
+      "**Do** reservar el amarillo correo (#f2c230) para lo que está en tránsito.",
+      "**Do** mapear cada estado del dominio a uno de los seis tonos de estado existentes.",
+      "**Do** dejar visibles y tachados los registros de baja o cancelados.",
+      "**Do** usar numerales tabulares y alinear a la derecha las columnas numéricas.",
+      "**Do** mantener visible la atribución de OpenStreetMap y las teselas apagadas.",
+      "**Do** respetar `prefers-reduced-motion`: las animaciones se reducen a un instante."
+    ],
+    "donts": [
+      "**Don't** usar amarillo para decoración, navegación activa o énfasis general.",
+      "**Don't** armar tableros de tarjetas con métricas; la información se presenta como recorrido, tabla y panel.",
+      "**Don't** hacer desaparecer un registro al cambiar de estado; se redibuja en su lugar.",
+      "**Don't** poner sombra a elementos que viven en la grilla (tablas, campos, ítems de tramo).",
+      "**Don't** poner etiquetas en mayúsculas sostenidas."
+    ]
+  }
+}

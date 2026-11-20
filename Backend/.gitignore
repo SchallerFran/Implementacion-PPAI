@@ -1,0 +1,16 @@
+# Build
+target/
+
+# Variables de entorno con datos reales (subir solo .env.example)
+.env
+.env.*
+!.env.example
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# SO
+.DS_Store
+Thumbs.db

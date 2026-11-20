@@ -1,0 +1,358 @@
+===============================================================================
+ BOLSINES - GUÍA DE INTEGRACIÓN BACKEND -> FRONTEND (React)
+ PPAI 2026 · 3K5 · Grupo 5 · CU 36 Consultar seguimiento de bolsines
+===============================================================================
+
+Este documento es para quien desarrolla el frontend. Resume TODO lo necesario
+para consumir el backend sin leer su código. Referencias completas:
+  - Backend/README.md                            (endpoints y ejecución)
+  - Backend/docs/Documentacion_Tecnica_Backend.pdf (arquitectura y diseño)
+  - Backend/postman/Bolsines.postman_collection.json (ejemplos ejecutables)
+
+Todos los ejemplos de respuesta de este documento son reales (copiados del
+backend corriendo con los datos de prueba).
+
+
+-------------------------------------------------------------------------------
+ 1. ENTORNO
+-------------------------------------------------------------------------------
+  Backend (Spring Boot) ........ http://localhost:8081   <- el frontend usa este
+  API mock del GPS Tracker ..... http://localhost:8080   (la usa el backend, NO el front)
+  PostgreSQL ................... localhost:5432          (la usa el backend)
+
+  - Guardar la URL base en una variable de entorno del front, por ejemplo con Vite:
+        VITE_API_URL=http://localhost:8081
+    No hardcodear la URL en los componentes.
+  - CORS: el backend acepta pedidos desde http://localhost:5173 (Vite) y
+    http://localhost:3000. Si el front corre en otro puerto/origen, agregarlo en
+    CORS_ORIGINS de Backend/.env (separado por coma) y reiniciar el backend.
+  - El front NUNCA llama al GPS (8080) ni a la base: todo pasa por el backend.
+  - Para que el CU 36 muestre ubicaciones tienen que estar levantados el backend
+    Y el mock del GPS (https://github.com/LiberaeMentis/dsi-api-bolsines).
+
+
+-------------------------------------------------------------------------------
+ 2. CONVENCIONES GENERALES
+-------------------------------------------------------------------------------
+  - Request y response en JSON. Enviar siempre "Content-Type: application/json"
+    en POST/PUT con body.
+  - Fechas: ISO 8601 sin zona horaria.
+        fecha .............. "2026-11-20"
+        fecha y hora ....... "2026-03-07T12:30:00"  (fechaActual puede traer fracción
+                              de segundos: "2026-11-20T13:12:29.3698155")
+    Mostrarlas formateadas en es-AR (dd/MM/yyyy HH:mm). No convertir de zona.
+  - Latitud/longitud: números decimales (double), listos para el mapa (Leaflet).
+  - Los números de bolsín, remito y documentación son enteros (numeroBolsin: 101).
+  - Los estados son strings exactos (comparar tal cual, sin traducir):
+        Bolsín ........ Creado | Cerrado | Enviado | Recibido | DeBaja
+        Remito ........ Creado | Cancelado | EnBolsinSaliente | EnBolsinEnviado |
+                        RecibidoYAceptado | RecibidoYAceptadoParcial
+        Documentación . Registrada | EnRemito | EnBolsinSaliente | EnBolsinEnviado |
+                        RecibidaYAceptada | NoRecibida | RecibidaYRechazada |
+                        ParaRedirigir | DeBaja
+  - Los textos (mensajes, preguntas, nombres) vienen en español, con tildes, en UTF-8.
+
+
+-------------------------------------------------------------------------------
+ 3. AUTENTICACIÓN Y SESIÓN
+-------------------------------------------------------------------------------
+  Login:
+    POST /api/sesiones
+    body:  { "nombre": "eb.cordoba", "contrasena": "bolsines" }
+    201:
+    {
+      "sesionId": "09a867b6-41fb-40ac-a2b7-7b0e233753f5",
+      "usuario": "eb.cordoba",
+      "empleado": "Encargado de Bolsines Córdoba",
+      "email": "eb.cordoba@bolsines.test",
+      "rol": "Encargado de Bolsines",
+      "comisionMedica": { "codigo": "CM-CBA-01", "nombre": "Comisión Médica Córdoba",
+                          "direccion": "Av. Principal 100, Córdoba", "email": "cm.cordoba@bolsines.test",
+                          "telefono": "0800-555-0000", "localidad": "Córdoba" }
+    }
+    401 si usuario/contraseña incorrectos.
+
+  - Guardar "sesionId" (por ejemplo en sessionStorage o en un contexto de React).
+    NO guardar la contraseña.
+  - Enviar en TODOS los pedidos (salvo login y catálogos) el header:
+        X-Sesion-Id: <sesionId>
+    Conviene centralizarlo en un único cliente HTTP (wrapper de fetch o instancia de axios).
+  - Si cualquier respuesta es 401 -> borrar la sesión guardada y volver al login.
+  - Sesión actual (por ejemplo al recargar la página):  GET /api/sesiones/actual  -> mismo body que el login.
+  - Cerrar sesión:  DELETE /api/sesiones  -> 204. Luego borrar la sesión local.
+  - Los primeros logins después de arrancar el backend pueden tardar 1-2 segundos
+    (hash de contraseña): mostrar un indicador de carga y deshabilitar el botón.
+  - El CU 36 solo lo puede ejecutar el rol "Encargado de Bolsines". Con otro rol el
+    backend responde 403: conviene ocultar/deshabilitar la opción según "rol".
+
+
+-------------------------------------------------------------------------------
+ 4. FORMATO DE ERRORES (igual en todos los endpoints)
+-------------------------------------------------------------------------------
+  Content-Type: application/problem+json
+    {
+      "type": "about:blank",
+      "title": "No encontrado",
+      "status": 404,
+      "detail": "No se encuentra bolsín con el número de precinto XX",
+      "instance": "/api/seguimiento-bolsines/bolsines"
+    }
+
+  -> Mostrar al usuario el campo "detail" (ya viene redactado en español).
+
+  status  significado                                   qué hacer en el front
+  ------  --------------------------------------------  ------------------------------------
+  400     dato inválido (campo vacío, peso <= 0, etc.)  mostrar detail junto al formulario
+          detail ej: "contrasena: no debe estar vacío"
+  401     sin sesión / sesión cerrada / login inválido  ir al login
+  403     sin permiso (rol o CM incorrecta)             mostrar detail, no reintentar
+  404     no existe / no hay resultados (A1, A2)        mostrar detail como mensaje informativo
+  409     operación no permitida en el estado actual    mostrar detail; refrescar los datos
+          o paso del caso de uso fuera de orden
+  5xx     error inesperado                              mensaje genérico
+
+
+-------------------------------------------------------------------------------
+ 5. CU 36 - CONSULTAR SEGUIMIENTO DE BOLSINES (pantalla principal)
+-------------------------------------------------------------------------------
+  Boundary del diseño: PantallaSeguimientoBolsines. Implementarla en el front con
+  esos métodos/nombres para mantener la consistencia con el modelado
+  (se evalúa en la defensa):
+
+    Atributos de la pantalla (diseño):  numeroBolsinLbl, numeroBolsinTxt,
+                                         numeroPrecintoLbl, numeroPrecintoTxt
+
+    Método de la pantalla (diseño)              -> Llamada al backend
+    ------------------------------------------  ---------------------------------------------
+    opcionConsultarUbicacion()                  (botón/menú que abre la pantalla)
+    habilitarVentana()                          POST /api/seguimiento-bolsines
+    mostrarBolsinEnMapaEnviadoDesdeCMOrigen()   (dibuja la respuesta del POST en el mapa)
+    pedirSeleccionBolsinEnMapa()                (habilita click en marcadores / filtros)
+    tomarSeleccionBolsinEnMapa()                POST /api/seguimiento-bolsines/seleccion
+    pedirConfirmacionDeMailAGerenteCMDestino()  (muestra la "pregunta" en un diálogo)
+    tomarConfirmacionMailCMGerenteDestino()     POST /api/seguimiento-bolsines/confirmacion
+    (cancelar en cualquier momento - A4)        DELETE /api/seguimiento-bolsines
+
+  IMPORTANTE: el backend guarda el estado del caso de uso POR SESIÓN entre pasos.
+  El orden es obligatorio:  consultar -> (filtrar) -> seleccionar -> confirmar.
+  Seleccionar o confirmar sin haber consultado devuelve 409. Un nuevo POST de
+  consulta reinicia el caso de uso. Confirmar (sí o no) o cancelar lo finaliza.
+
+  ---------------------------------------------------------------------------
+  Paso 1-6: consultar ubicación de los bolsines enviados desde la CM del usuario
+  ---------------------------------------------------------------------------
+    POST /api/seguimiento-bolsines                      (sin body)
+    POST /api/seguimiento-bolsines?dispositivoGPS=NavTrack%20QX-7A   (opcional)
+
+    dispositivoGPS (opcional, default XTR-4500L): XTR-4500L | NavTrack QX-7A | GeoPulse MTR-900
+    Es el modelo de GPS Tracker (patrón Adapter). Sugerencia: un selector discreto
+    en la pantalla para poder mostrar en la defensa que los 3 modelos devuelven lo
+    mismo. URL-encodear los espacios.
+
+    200:
+    {
+      "codigoCM": "CM-CBA-01",
+      "nombreCM": "Comisión Médica Córdoba",
+      "dispositivoGPS": "XTR-4500L",
+      "fechaActual": "2026-11-20T13:12:29.3698155",
+      "bolsines": [
+        { "numeroBolsin": 101, "numeroPrecinto": "P-500101",
+          "codigoCMDestino": "CM-ROS-02", "nombreCMDestino": "Comisión Médica Rosario",
+          "latitud": -31.4201, "longitud": -64.1888,
+          "fechaHoraUltimaActualizacion": "2026-03-07T12:30:00" }
+      ],
+      "bolsinesSinUbicacion": [
+        { "numeroBolsin": 111, "numeroPrecinto": "P-500111",
+          "motivo": "El GPS Tracker no pudo informar la ubicación (HTTP 404)" }
+      ]
+    }
+
+    En pantalla:
+    - Mostrar la CM del usuario (nombreCM) -> paso 2 del CU.
+    - "bolsines": un marcador en el mapa por cada uno (latitud/longitud). Al pasar
+      o hacer click mostrar número, precinto, CM destino y fecha/hora de última
+      actualización.
+    - "bolsinesSinUbicacion" (flujo A3): NO van al mapa. Listarlos aparte con su
+      "motivo" (ej: aviso "El GPS no informó la ubicación de 1 bolsín").
+    - 404 (flujo A1): no hay bolsines Enviado desde la CM -> mostrar "detail" y no
+      mostrar el mapa vacío como si fuera un error técnico.
+
+  Mapa: DECISIÓN DEL EQUIPO -> Leaflet + OpenStreetMap (NO Google Maps).
+  No requiere API key, tarjeta ni cuenta. El backend solo entrega coordenadas,
+  así que no cambia nada de su lado.
+    npm install leaflet react-leaflet      (react-leaflet v5 = React 19, v4 = React 18)
+
+    import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+    import "leaflet/dist/leaflet.css";
+
+    <MapContainer center={[-34.6, -64.2]} zoom={5} style={{ height: 500 }}>
+      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                 attribution="&copy; OpenStreetMap" />
+      {bolsines.map(b => (
+        <Marker key={b.numeroBolsin} position={[b.latitud, b.longitud]}
+                eventHandlers={{ click: () => tomarSeleccionBolsinEnMapa(b.numeroBolsin) }}>
+          <Popup>Bolsín {b.numeroBolsin} · {b.numeroPrecinto} → {b.nombreCMDestino}</Popup>
+        </Marker>
+      ))}
+    </MapContainer>
+
+  Detalles:
+  - Importar "leaflet/dist/leaflet.css" (sin eso el mapa se ve roto).
+  - El contenedor del mapa necesita una altura explícita.
+  - Con Vite el ícono por defecto del Marker puede no verse: importar las
+    imágenes marker-icon.png / marker-icon-2x.png / marker-shadow.png de
+    "leaflet/dist/images/" y asignarlas con L.Icon.Default.mergeOptions(...).
+  - Mantener el atributo "© OpenStreetMap" visible (lo exige su licencia).
+  - Centrar/ajustar el mapa a los marcadores (map.fitBounds) cuando haya varios.
+
+  Justificación para la defensa: el RNF 7 menciona la librería de Google Maps.
+  El backend conserva el boundary InterfazServidorGoogleMaps del diseño, que solo
+  arma los marcadores con coordenadas; el proveedor visual del mapa es un detalle
+  del frontend y se reemplazó por Leaflet/OpenStreetMap (sin key ni facturación)
+  sin afectar al backend ni al caso de uso.
+
+  ---------------------------------------------------------------------------
+  Paso 6 (filtro): por número de precinto y/o CM destino
+  ---------------------------------------------------------------------------
+    GET /api/seguimiento-bolsines/bolsines?numeroPrecinto=P-500101
+    GET /api/seguimiento-bolsines/bolsines?codigoCMDestino=CM-ROS-02
+    200: [ MarcadorBolsin, ... ]      (mismo formato que "bolsines" de arriba)
+    404 (flujo A2): "No se encuentra bolsín con el número de precinto XX"
+
+    Usar numeroPrecintoTxt como input del filtro. Para el combo de CM destino usar
+    GET /api/comisiones-medicas. Al filtrar, mostrar en el mapa solo los devueltos.
+
+  ---------------------------------------------------------------------------
+  Paso 7-8: seleccionar un bolsín del mapa
+  ---------------------------------------------------------------------------
+    POST /api/seguimiento-bolsines/seleccion
+    body: { "numeroBolsin": 101 }
+    200:
+    {
+      "bolsin": { ...MarcadorBolsin del 101... },
+      "pregunta": "¿Desea enviar un correo electrónico al Gerente de la Comisión Médica Rosario para informar la ubicación del bolsín 101?"
+    }
+    -> Mostrar "pregunta" en un diálogo de confirmación con botones Sí / No.
+    404 si el bolsín no está en el mapa (por ejemplo uno de bolsinesSinUbicacion).
+
+  ---------------------------------------------------------------------------
+  Paso 9-11: confirmar (o no) el envío del mail al Gerente de la CM destino
+  ---------------------------------------------------------------------------
+    POST /api/seguimiento-bolsines/confirmacion
+    body: { "enviarMail": true }       <- botón Sí
+          { "enviarMail": false }      <- botón No (flujo A5)
+    200 (Sí):
+    {
+      "mailEnviado": true,
+      "mensaje": "Se notificó la ubicación del bolsín 101 al Gerente de la Comisión Médica Rosario (gcm.rosario@bolsines.test).",
+      "notificacion": { "destinatario": "gcm.rosario@bolsines.test", "numeroBolsin": 101,
+                        "fechaHoraUltimaActualizacion": "2026-03-07T12:30:00",
+                        "latitud": -31.4201, "longitud": -64.1888 }
+    }
+    200 (No):  { "mailEnviado": false, "mensaje": "No se envió el correo electrónico. Fin del caso de uso.", "notificacion": null }
+
+    -> Mostrar "mensaje" (ejecución exitosa del CU / del CU 31). El caso de uso
+       terminó: para otra consulta volver a hacer el POST del paso 1.
+    Nota: el mail no se envía realmente (no hay credenciales de Microsoft Graph);
+    el backend lo registra y devuelve sus datos en "notificacion".
+
+  ---------------------------------------------------------------------------
+  Cancelar (flujo A4) - botón "Cancelar" visible durante todo el caso de uso
+  ---------------------------------------------------------------------------
+    DELETE /api/seguimiento-bolsines   -> 204. Volver al menú/pantalla anterior.
+
+  Resumen de flujos alternativos:
+    A1  POST consulta -> 404                     mensaje "No se encuentran bolsines en estado Enviado..."
+    A2  GET filtro -> 404                        mensaje "No se encuentra bolsín con el número de precinto..."
+    A3  bolsinesSinUbicacion no vacío            lista aparte con el motivo
+    A4  DELETE                                   cancelar el CU
+    A5  confirmacion { enviarMail: false }       fin sin mail
+
+
+-------------------------------------------------------------------------------
+ 6. OTROS ENDPOINTS (solo si el front implementa esas pantallas)
+-------------------------------------------------------------------------------
+  Catálogos (sin sesión):
+    GET  /api/comisiones-medicas   -> [{codigo, nombre, direccion, email, telefono, localidad}]
+    GET  /api/tipos-documento      -> [{nombre, descripcion}]
+
+  Documentación (CM del usuario logueado):
+    POST /api/documentaciones      {tipoDocumento, asunto, fechaPase, archivos:[{nombreArchivo, tituloDocumento}]}
+    GET  /api/documentaciones?estado=Registrada     GET /api/documentaciones/{numero}
+
+  Remitos:
+    POST /api/remitos              {codigoCMDestino, documentaciones:[numero], areaCMCDestino?}
+    PUT  /api/remitos/{numero}     {documentaciones:[numero]}          (solo Creado)
+    POST /api/remitos/{numero}/cancelar                                (solo Creado)
+    GET  /api/remitos?estado=&codigoCMDestino=      GET /api/remitos/{numero}
+
+  Bolsines (rol Encargado de Bolsines):
+    POST   /api/bolsines                     {codigoCMDestino, remitos:[numero], peso}
+    PUT    /api/bolsines/{numero}            {remitos:[numero]}            (solo Creado)
+    POST   /api/bolsines/{numero}/precintar  {numeroPrecinto}              Creado -> Cerrado
+    POST   /api/bolsines/{numero}/abrir                                    Cerrado -> Creado
+    DELETE /api/bolsines/{numero}                                          Creado|Cerrado -> DeBaja
+    POST   /api/bolsines/{numero}/retiro                                   Cerrado -> Enviado
+    POST   /api/bolsines/{numero}/recepcion  {documentacionesNoRecibidas:[numero]}  Enviado -> Recibido
+                                             (solo el EB de la CM destino)
+    GET    /api/bolsines?estado=&numeroPrecinto=    GET /api/bolsines/{numero}
+           (incluye remitos, documentación e "historial" de estados)
+
+  Las transiciones no permitidas devuelven 409 con el motivo en "detail".
+  Los ejemplos ejecutables de todos estos endpoints están en la colección Postman.
+
+
+-------------------------------------------------------------------------------
+ 7. USUARIOS Y DATOS DE PRUEBA (contraseña de todos: bolsines)
+-------------------------------------------------------------------------------
+  Por cada CM existen  eb.<cm>  (Encargado de Bolsines)  y  gcm.<cm>  (Gerente).
+  <cm> = cordoba, rosario, mendoza, central, tucuman, salta, jujuy, neuquen,
+         mardelplata, laplata, villamaria
+
+  Usuario        Qué ve en el CU 36 / para qué sirve
+  -------------  -------------------------------------------------------------
+  eb.cordoba     Bolsín 101 en el mapa (-> Rosario) y 111 sin ubicación (A3). Recomendado para la demo.
+  eb.rosario     Bolsín 102 (-> Mendoza)
+  eb.mendoza     Bolsín 103 (-> Central)
+  eb.central     Bolsín 104 (-> Córdoba)
+  eb.salta       Bolsín 106 (-> Jujuy)
+  eb.neuquen     Bolsín 107 (-> Mar del Plata)
+  eb.mardelplata Bolsín 108 (-> Central)
+  eb.laplata     Bolsín 109 (-> Córdoba)
+  eb.villamaria  Bolsín 110 (-> Rosario)
+  eb.tucuman     Sin bolsines Enviado -> flujo A1 (404)
+  gcm.cordoba    Rol Gerente -> el CU 36 responde 403 (probar ocultamiento de la opción)
+
+  Precintos de prueba: P-500101 ... P-500111 (P-500 + número de bolsín).
+  Para volver a los datos iniciales: borrar la base "bolsines" y reiniciar el
+  backend (la recrea sola).
+
+
+-------------------------------------------------------------------------------
+ 8. REGLAS PARA NO ROMPER LA INTEGRACIÓN
+-------------------------------------------------------------------------------
+  - No inventar endpoints ni campos: si algo falta, pedirlo al backend.
+  - No duplicar reglas de negocio en el front (estados, transiciones, permisos):
+    el backend es la fuente de verdad; el front solo muestra lo que devuelve y el
+    "detail" de los errores.
+  - Usar los nombres del diseño en la pantalla del CU 36 (sección 5).
+  - Un único cliente HTTP que agregue X-Sesion-Id y maneje 401 en un solo lugar.
+  - No commitear archivos .env del front (API keys, URLs).
+
+
+-------------------------------------------------------------------------------
+ 9. CHECKLIST DE INTEGRACIÓN
+-------------------------------------------------------------------------------
+  [ ] VITE_API_URL configurada y CORS funcionando desde el puerto del front
+  [ ] Login guarda sesionId, envía X-Sesion-Id y vuelve al login ante un 401
+  [ ] Opción del CU 36 visible solo para "Encargado de Bolsines"
+  [ ] Mapa Leaflet + OpenStreetMap con un marcador por bolsín y su información
+  [ ] Lista de bolsinesSinUbicacion con su motivo (A3)
+  [ ] Mensaje de A1 cuando no hay bolsines Enviado
+  [ ] Filtros por precinto y CM destino, con mensaje de A2
+  [ ] Click en marcador -> diálogo con la "pregunta" -> Sí / No (A5)
+  [ ] Mensaje final con "mensaje" de la confirmación
+  [ ] Botón Cancelar (A4) en todo momento
+  [ ] Selector de modelo de GPS para la defensa del patrón Adapter (opcional)
+  [ ] Errores mostrados a partir del campo "detail"
+===============================================================================

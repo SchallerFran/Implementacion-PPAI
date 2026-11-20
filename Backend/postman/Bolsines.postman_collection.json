@@ -1,0 +1,3719 @@
+{
+  "info": {
+    "name": "Bolsines - Backend PPAI 2026 G5",
+    "description": "Pruebas de endpoints: CU 36 Consultar seguimiento de bolsines (patrón Adapter con los 3 GPS) y máquinas de estado de Remito y Bolsín.\nRequisitos: backend en {{baseUrl}} y API mock del GPS Tracker (https://github.com/LiberaeMentis/dsi-api-bolsines) en http://localhost:8080.\nEjecutar la colección completa en orden (Runner o `postman collection run`).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8081"
+    },
+    {
+      "key": "sesionCordoba",
+      "value": ""
+    },
+    {
+      "key": "sesionRosario",
+      "value": ""
+    },
+    {
+      "key": "sesionTucuman",
+      "value": ""
+    },
+    {
+      "key": "sesionGerente",
+      "value": ""
+    },
+    {
+      "key": "doc1",
+      "value": ""
+    },
+    {
+      "key": "doc2",
+      "value": ""
+    },
+    {
+      "key": "doc3",
+      "value": ""
+    },
+    {
+      "key": "remito1",
+      "value": ""
+    },
+    {
+      "key": "remitoA",
+      "value": ""
+    },
+    {
+      "key": "remitoB",
+      "value": ""
+    },
+    {
+      "key": "remitoC",
+      "value": ""
+    },
+    {
+      "key": "bolsin",
+      "value": ""
+    },
+    {
+      "key": "bolsin2",
+      "value": ""
+    },
+    {
+      "key": "bolsin3",
+      "value": ""
+    },
+    {
+      "key": "precinto1",
+      "value": ""
+    },
+    {
+      "key": "precinto2",
+      "value": ""
+    },
+    {
+      "key": "precinto3",
+      "value": ""
+    },
+    {
+      "key": "precinto4",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "00 Sesión y catálogos",
+      "description": "Requiere el mock del GPS en http://localhost:8080 solo para las carpetas 01 y 02.",
+      "item": [
+        {
+          "name": "Login EB Córdoba",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/sesiones",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "sesiones"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"eb.cordoba\",\n  \"contrasena\": \"bolsines\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", () => pm.response.to.have.status(201));",
+                  "if (pm.response.code < 300) pm.collectionVariables.set(\"sesionCordoba\", pm.response.json().sesionId);",
+                  "pm.test(\"rol Encargado de Bolsines\", () => { const r = pm.response.json(); pm.expect(r.rol).to.eql(\"Encargado de Bolsines\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Login EB Rosario",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/sesiones",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "sesiones"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"eb.rosario\",\n  \"contrasena\": \"bolsines\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", () => pm.response.to.have.status(201));",
+                  "if (pm.response.code < 300) pm.collectionVariables.set(\"sesionRosario\", pm.response.json().sesionId);",
+                  "pm.test(\"rol Encargado de Bolsines\", () => { const r = pm.response.json(); pm.expect(r.rol).to.eql(\"Encargado de Bolsines\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Login EB Tucumán",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/sesiones",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "sesiones"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"eb.tucuman\",\n  \"contrasena\": \"bolsines\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", () => pm.response.to.have.status(201));",
+                  "if (pm.response.code < 300) pm.collectionVariables.set(\"sesionTucuman\", pm.response.json().sesionId);",
+                  "pm.test(\"rol Encargado de Bolsines\", () => { const r = pm.response.json(); pm.expect(r.rol).to.eql(\"Encargado de Bolsines\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Login Gerente Córdoba",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/sesiones",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "sesiones"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"gcm.cordoba\",\n  \"contrasena\": \"bolsines\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", () => pm.response.to.have.status(201));",
+                  "if (pm.response.code < 300) pm.collectionVariables.set(\"sesionGerente\", pm.response.json().sesionId);",
+                  "pm.test(\"rol Gerente de Comisión Médica\", () => { const r = pm.response.json(); pm.expect(r.rol).to.eql(\"Gerente de Comisión Médica\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Login contraseña incorrecta -> 401",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/sesiones",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "sesiones"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"eb.cordoba\",\n  \"contrasena\": \"mal\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 401\", () => pm.response.to.have.status(401));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Login sin datos -> 400",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/sesiones",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "sesiones"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Sesión actual",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/sesiones/actual",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "sesiones",
+                "actual"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"CM Córdoba\", () => { const r = pm.response.json(); pm.expect(r.comisionMedica.codigo).to.eql(\"CM-CBA-01\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Sin header de sesión -> 401",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/bolsines",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "bolsines"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 401\", () => pm.response.to.have.status(401));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Comisiones médicas",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/comisiones-medicas",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "comisiones-medicas"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"11 CM\", () => { const r = pm.response.json(); pm.expect(r.length).to.eql(11); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Tipos de documento",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/tipos-documento",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "tipos-documento"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"hay tipos\", () => { const r = pm.response.json(); pm.expect(r.length).to.be.above(0); });"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "01 CU 36 - Flujo principal",
+      "description": "",
+      "item": [
+        {
+          "name": "Consultar ubicación (XTR-4500L)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/seguimiento-bolsines",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "seguimiento-bolsines"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"CM del EB logueado = Córdoba\", () => { const r = pm.response.json(); pm.expect(r.codigoCM).to.eql(\"CM-CBA-01\"); });",
+                  "pm.test(\"bolsín 101 en el mapa con coordenadas del GPS\", () => { const r = pm.response.json(); const b = r.bolsines.find(x => x.numeroBolsin === 101); pm.expect(b).to.be.ok; pm.expect(b.latitud).to.eql(-31.4201); pm.expect(b.longitud).to.eql(-64.1888); pm.expect(b.fechaHoraUltimaActualizacion).to.eql(\"2026-03-07T12:30:00\"); });",
+                  "pm.test(\"A3: bolsín 111 sin ubicación (no existe en el GPS)\", () => { const r = pm.response.json(); pm.expect(r.bolsinesSinUbicacion.map(x => x.numeroBolsin)).to.include(111); });",
+                  "pm.test(\"solo bolsines de origen Córdoba\", () => { const r = pm.response.json(); r.bolsines.forEach(b => pm.expect([101]).to.include(b.numeroBolsin)); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Filtrar por número de precinto",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/seguimiento-bolsines/bolsines?numeroPrecinto=P-500101",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "seguimiento-bolsines",
+                "bolsines"
+              ],
+              "query": [
+                {
+                  "key": "numeroPrecinto",
+                  "value": "P-500101"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"solo el 101\", () => { const r = pm.response.json(); pm.expect(r.map(x => x.numeroBolsin)).to.eql([101]); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Filtrar por CM destino",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/seguimiento-bolsines/bolsines?codigoCMDestino=CM-ROS-02",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "seguimiento-bolsines",
+                "bolsines"
+              ],
+              "query": [
+                {
+                  "key": "codigoCMDestino",
+                  "value": "CM-ROS-02"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"todos a Rosario\", () => { const r = pm.response.json(); r.forEach(x => pm.expect(x.codigoCMDestino).to.eql(\"CM-ROS-02\")); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Seleccionar bolsín 101 en el mapa",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/seguimiento-bolsines/seleccion",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "seguimiento-bolsines",
+                "seleccion"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"numeroBolsin\": 101\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"pregunta por el Gerente de Rosario\", () => { const r = pm.response.json(); pm.expect(r.pregunta).to.include(\"Rosario\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Confirmar mail al GCM destino (CU 31)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/seguimiento-bolsines/confirmacion",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "seguimiento-bolsines",
+                "confirmacion"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"enviarMail\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"mail enviado\", () => { const r = pm.response.json(); pm.expect(r.mailEnviado).to.be.true; });",
+                  "pm.test(\"destinatario = gerente de Rosario\", () => { const r = pm.response.json(); pm.expect(r.notificacion.destinatario).to.eql(\"gcm.rosario@bolsines.test\"); });",
+                  "pm.test(\"informa número, fecha/hora y coordenadas\", () => { const r = pm.response.json(); pm.expect(r.notificacion.numeroBolsin).to.eql(101); pm.expect(r.notificacion.latitud).to.eql(-31.4201); pm.expect(r.notificacion.fechaHoraUltimaActualizacion).to.be.ok; });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Luego del fin del CU no hay consulta en curso -> 409",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/seguimiento-bolsines/seleccion",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "seguimiento-bolsines",
+                "seleccion"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"numeroBolsin\": 101\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 409\", () => pm.response.to.have.status(409));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "01b CU 36 - Adapter: los 3 modelos de GPS",
+      "description": "",
+      "item": [
+        {
+          "name": "NavTrack QX-7A",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/seguimiento-bolsines?dispositivoGPS=NavTrack%20QX-7A",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "seguimiento-bolsines"
+              ],
+              "query": [
+                {
+                  "key": "dispositivoGPS",
+                  "value": "NavTrack%20QX-7A"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"dispositivo NavTrack\", () => { const r = pm.response.json(); pm.expect(r.dispositivoGPS).to.eql(\"NavTrack QX-7A\"); });",
+                  "pm.test(\"101 con el mismo formato (CSV adaptado)\", () => { const r = pm.response.json(); const b = r.bolsines.find(x => x.numeroBolsin === 101); pm.expect(b.latitud).to.eql(-31.4201); pm.expect(b.fechaHoraUltimaActualizacion).to.eql(\"2026-03-07T12:30:00\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "GeoPulse MTR-900",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/seguimiento-bolsines?dispositivoGPS=GeoPulse%20MTR-900",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "seguimiento-bolsines"
+              ],
+              "query": [
+                {
+                  "key": "dispositivoGPS",
+                  "value": "GeoPulse%20MTR-900"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"dispositivo GeoPulse\", () => { const r = pm.response.json(); pm.expect(r.dispositivoGPS).to.eql(\"GeoPulse MTR-900\"); });",
+                  "pm.test(\"101 con el mismo formato (matriz adaptada)\", () => { const r = pm.response.json(); const b = r.bolsines.find(x => x.numeroBolsin === 101); pm.expect(b.longitud).to.eql(-64.1888); pm.expect(b.fechaHoraUltimaActualizacion).to.eql(\"2026-03-07T12:30:00\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Modelo de GPS desconocido -> 400",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/seguimiento-bolsines?dispositivoGPS=Garmin",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "seguimiento-bolsines"
+              ],
+              "query": [
+                {
+                  "key": "dispositivoGPS",
+                  "value": "Garmin"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Cancelar consulta (limpieza)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/seguimiento-bolsines",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "seguimiento-bolsines"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 204\", () => pm.response.to.have.status(204));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "02 CU 36 - Flujos alternativos",
+      "description": "",
+      "item": [
+        {
+          "name": "A1: Tucumán no tiene bolsines Enviado -> 404",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionTucuman}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/seguimiento-bolsines",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "seguimiento-bolsines"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 404\", () => pm.response.to.have.status(404));",
+                  "pm.test(\"mensaje\", () => { const r = pm.response.json(); pm.expect(r.detail).to.include(\"No se encuentran bolsines\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Gerente (no EB) -> 403",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionGerente}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/seguimiento-bolsines",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "seguimiento-bolsines"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 403\", () => pm.response.to.have.status(403));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Consultar ubicación (XTR-4500L)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/seguimiento-bolsines",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "seguimiento-bolsines"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"CM del EB logueado = Córdoba\", () => { const r = pm.response.json(); pm.expect(r.codigoCM).to.eql(\"CM-CBA-01\"); });",
+                  "pm.test(\"bolsín 101 en el mapa con coordenadas del GPS\", () => { const r = pm.response.json(); const b = r.bolsines.find(x => x.numeroBolsin === 101); pm.expect(b).to.be.ok; pm.expect(b.latitud).to.eql(-31.4201); pm.expect(b.longitud).to.eql(-64.1888); pm.expect(b.fechaHoraUltimaActualizacion).to.eql(\"2026-03-07T12:30:00\"); });",
+                  "pm.test(\"A3: bolsín 111 sin ubicación (no existe en el GPS)\", () => { const r = pm.response.json(); pm.expect(r.bolsinesSinUbicacion.map(x => x.numeroBolsin)).to.include(111); });",
+                  "pm.test(\"solo bolsines de origen Córdoba\", () => { const r = pm.response.json(); r.bolsines.forEach(b => pm.expect([101]).to.include(b.numeroBolsin)); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2: precinto inexistente -> 404",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/seguimiento-bolsines/bolsines?numeroPrecinto=NO-EXISTE",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "seguimiento-bolsines",
+                "bolsines"
+              ],
+              "query": [
+                {
+                  "key": "numeroPrecinto",
+                  "value": "NO-EXISTE"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 404\", () => pm.response.to.have.status(404));",
+                  "pm.test(\"mensaje\", () => { const r = pm.response.json(); pm.expect(r.detail).to.include(\"número de precinto\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A3: seleccionar bolsín sin ubicación (111) -> 404",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/seguimiento-bolsines/seleccion",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "seguimiento-bolsines",
+                "seleccion"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"numeroBolsin\": 111\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 404\", () => pm.response.to.have.status(404));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Confirmar sin haber seleccionado -> 409",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/seguimiento-bolsines/confirmacion",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "seguimiento-bolsines",
+                "confirmacion"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"enviarMail\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 409\", () => pm.response.to.have.status(409));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Seleccionar bolsín 101",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/seguimiento-bolsines/seleccion",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "seguimiento-bolsines",
+                "seleccion"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"numeroBolsin\": 101\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A5: no confirma el mail",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/seguimiento-bolsines/confirmacion",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "seguimiento-bolsines",
+                "confirmacion"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"enviarMail\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"no se envía\", () => { const r = pm.response.json(); pm.expect(r.mailEnviado).to.be.false; pm.expect(r.notificacion).to.be.null; });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Consultar ubicación (XTR-4500L)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/seguimiento-bolsines",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "seguimiento-bolsines"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"CM del EB logueado = Córdoba\", () => { const r = pm.response.json(); pm.expect(r.codigoCM).to.eql(\"CM-CBA-01\"); });",
+                  "pm.test(\"bolsín 101 en el mapa con coordenadas del GPS\", () => { const r = pm.response.json(); const b = r.bolsines.find(x => x.numeroBolsin === 101); pm.expect(b).to.be.ok; pm.expect(b.latitud).to.eql(-31.4201); pm.expect(b.longitud).to.eql(-64.1888); pm.expect(b.fechaHoraUltimaActualizacion).to.eql(\"2026-03-07T12:30:00\"); });",
+                  "pm.test(\"A3: bolsín 111 sin ubicación (no existe en el GPS)\", () => { const r = pm.response.json(); pm.expect(r.bolsinesSinUbicacion.map(x => x.numeroBolsin)).to.include(111); });",
+                  "pm.test(\"solo bolsines de origen Córdoba\", () => { const r = pm.response.json(); r.bolsines.forEach(b => pm.expect([101]).to.include(b.numeroBolsin)); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A4: el EB cancela el CU",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/seguimiento-bolsines",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "seguimiento-bolsines"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 204\", () => pm.response.to.have.status(204));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A4: luego de cancelar no hay consulta -> 409",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/seguimiento-bolsines/bolsines",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "seguimiento-bolsines",
+                "bolsines"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 409\", () => pm.response.to.have.status(409));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "03 Máquina de estados de Remito",
+      "description": "",
+      "item": [
+        {
+          "name": "Registrar documentación 1",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/documentaciones",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "documentaciones"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tipoDocumento\": \"Expediente\",\n  \"asunto\": \"Expediente Postman 1\",\n  \"fechaPase\": \"2026-11-20\",\n  \"archivos\": [\n    {\n      \"nombreArchivo\": \"expediente.pdf\",\n      \"tituloDocumento\": \"Expediente Postman 1\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", () => pm.response.to.have.status(201));",
+                  "if (pm.response.code < 300) pm.collectionVariables.set(\"doc1\", pm.response.json().numero);",
+                  "pm.test(\"queda Registrada\", () => { const r = pm.response.json(); pm.expect(r.estado).to.eql(\"Registrada\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Registrar documentación 2",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/documentaciones",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "documentaciones"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tipoDocumento\": \"Expediente\",\n  \"asunto\": \"Expediente Postman 2\",\n  \"fechaPase\": \"2026-11-20\",\n  \"archivos\": [\n    {\n      \"nombreArchivo\": \"expediente.pdf\",\n      \"tituloDocumento\": \"Expediente Postman 2\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", () => pm.response.to.have.status(201));",
+                  "if (pm.response.code < 300) pm.collectionVariables.set(\"doc2\", pm.response.json().numero);",
+                  "pm.test(\"queda Registrada\", () => { const r = pm.response.json(); pm.expect(r.estado).to.eql(\"Registrada\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "15 Generar remito (doc1, doc2)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/remitos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "remitos"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"codigoCMDestino\": \"CM-ROS-02\",\n  \"documentaciones\": [\n    {{doc1}},\n    {{doc2}}\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", () => pm.response.to.have.status(201));",
+                  "if (pm.response.code < 300) pm.collectionVariables.set(\"remito1\", pm.response.json().numero);",
+                  "pm.test(\"remito Creado\", () => { const r = pm.response.json(); pm.expect(r.estado).to.eql(\"Creado\"); });",
+                  "pm.test(\"documentación EnRemito\", () => { const r = pm.response.json(); r.detalles.forEach(d => pm.expect(d.documentacion.estado).to.eql(\"EnRemito\")); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "16 Modificar remito: quitar doc2",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/remitos/{{remito1}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "remitos",
+                "{{remito1}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"documentaciones\": [\n    {{doc1}}\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"queda solo doc1\", () => { const r = pm.response.json(); pm.expect(r.detalles.length).to.eql(1); });",
+                  "pm.test(\"sigue Creado\", () => { const r = pm.response.json(); pm.expect(r.estado).to.eql(\"Creado\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "doc2 vuelve a Registrada",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/documentaciones/{{doc2}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "documentaciones",
+                "{{doc2}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"documentación Registrada\", () => { const r = pm.response.json(); pm.expect(r.estado).to.eql(\"Registrada\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Doc ya en un remito no puede ir en otro -> 409",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/remitos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "remitos"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"codigoCMDestino\": \"CM-ROS-02\",\n  \"documentaciones\": [\n    {{doc1}}\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 409\", () => pm.response.to.have.status(409));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Remito con destino = origen -> 400",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/remitos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "remitos"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"codigoCMDestino\": \"CM-CBA-01\",\n  \"documentaciones\": [\n    {{doc2}}\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Remito a CM inexistente -> 404",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/remitos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "remitos"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"codigoCMDestino\": \"CM-XXX-99\",\n  \"documentaciones\": [\n    {{doc2}}\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 404\", () => pm.response.to.have.status(404));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Otra CM no puede cancelar el remito -> 403",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionRosario}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/remitos/{{remito1}}/cancelar",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "remitos",
+                "{{remito1}}",
+                "cancelar"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 403\", () => pm.response.to.have.status(403));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "17 Cancelar remito",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/remitos/{{remito1}}/cancelar",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "remitos",
+                "{{remito1}}",
+                "cancelar"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Cancelado\", () => { const r = pm.response.json(); pm.expect(r.estado).to.eql(\"Cancelado\"); });",
+                  "pm.test(\"documentación vuelve a Registrada\", () => { const r = pm.response.json(); r.detalles.forEach(d => pm.expect(d.documentacion.estado).to.eql(\"Registrada\")); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Cancelar un remito Cancelado -> 409",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/remitos/{{remito1}}/cancelar",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "remitos",
+                "{{remito1}}",
+                "cancelar"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 409\", () => pm.response.to.have.status(409));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Modificar un remito Cancelado -> 409",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/remitos/{{remito1}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "remitos",
+                "{{remito1}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"documentaciones\": [\n    {{doc1}}\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 409\", () => pm.response.to.have.status(409));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "04 Máquina de estados de Bolsín",
+      "description": "",
+      "item": [
+        {
+          "name": "Generar remito A (doc1)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/remitos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "remitos"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"codigoCMDestino\": \"CM-ROS-02\",\n  \"documentaciones\": [\n    {{doc1}}\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", () => pm.response.to.have.status(201));",
+                  "if (pm.response.code < 300) pm.collectionVariables.set(\"remitoA\", pm.response.json().numero);",
+                  "pm.test(\"remito Creado\", () => { const r = pm.response.json(); pm.expect(r.estado).to.eql(\"Creado\"); });",
+                  "pm.test(\"documentación EnRemito\", () => { const r = pm.response.json(); r.detalles.forEach(d => pm.expect(d.documentacion.estado).to.eql(\"EnRemito\")); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Generar remito B (doc2)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/remitos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "remitos"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"codigoCMDestino\": \"CM-ROS-02\",\n  \"documentaciones\": [\n    {{doc2}}\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", () => pm.response.to.have.status(201));",
+                  "if (pm.response.code < 300) pm.collectionVariables.set(\"remitoB\", pm.response.json().numero);",
+                  "pm.test(\"remito Creado\", () => { const r = pm.response.json(); pm.expect(r.estado).to.eql(\"Creado\"); });",
+                  "pm.test(\"documentación EnRemito\", () => { const r = pm.response.json(); r.detalles.forEach(d => pm.expect(d.documentacion.estado).to.eql(\"EnRemito\")); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Gerente no puede generar bolsines -> 403",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionGerente}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/bolsines",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "bolsines"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"codigoCMDestino\": \"CM-ROS-02\",\n  \"remitos\": [\n    {{remitoA}}\n  ],\n  \"peso\": 100\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 403\", () => pm.response.to.have.status(403));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Peso inválido -> 400",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/bolsines",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "bolsines"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"codigoCMDestino\": \"CM-ROS-02\",\n  \"remitos\": [\n    {{remitoA}}\n  ],\n  \"peso\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Remito a otro destino -> 400",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/bolsines",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "bolsines"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"codigoCMDestino\": \"CM-MDZ-03\",\n  \"remitos\": [\n    {{remitoA}}\n  ],\n  \"peso\": 100\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "19 Generar bolsín (A, B)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/bolsines",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "bolsines"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"codigoCMDestino\": \"CM-ROS-02\",\n  \"remitos\": [\n    {{remitoA}},\n    {{remitoB}}\n  ],\n  \"peso\": 1200\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", () => pm.response.to.have.status(201));",
+                  "if (pm.response.code < 300) pm.collectionVariables.set(\"bolsin\", pm.response.json().numeroBolsin);",
+                  "pm.test(\"Creado\", () => { const r = pm.response.json(); pm.expect(r.estado).to.eql(\"Creado\"); });",
+                  "pm.test(\"remitos EnBolsinSaliente\", () => { const r = pm.response.json(); r.remitos.forEach(x => pm.expect(x.estado).to.eql(\"EnBolsinSaliente\")); });",
+                  "pm.test(\"documentación EnBolsinSaliente\", () => { const r = pm.response.json(); r.remitos.forEach(x => x.detalles.forEach(d => pm.expect(d.documentacion.estado).to.eql(\"EnBolsinSaliente\"))); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Un remito en bolsín no se puede cancelar -> 409",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/remitos/{{remitoB}}/cancelar",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "remitos",
+                "{{remitoB}}",
+                "cancelar"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 409\", () => pm.response.to.have.status(409));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "20 Modificar bolsín: quitar remito B",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/bolsines/{{bolsin}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "bolsines",
+                "{{bolsin}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"remitos\": [\n    {{remitoA}}\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"queda 1 remito\", () => { const r = pm.response.json(); pm.expect(r.remitos.length).to.eql(1); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Remito B vuelve a Creado y su doc a EnRemito",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/remitos/{{remitoB}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "remitos",
+                "{{remitoB}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"remito Creado\", () => { const r = pm.response.json(); pm.expect(r.estado).to.eql(\"Creado\"); });",
+                  "pm.test(\"documentación EnRemito\", () => { const r = pm.response.json(); r.detalles.forEach(d => pm.expect(d.documentacion.estado).to.eql(\"EnRemito\")); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "20 Modificar bolsín: volver a agregar B",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/bolsines/{{bolsin}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "bolsines",
+                "{{bolsin}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"remitos\": [\n    {{remitoA}},\n    {{remitoB}}\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"2 remitos EnBolsinSaliente\", () => { const r = pm.response.json(); pm.expect(r.remitos.length).to.eql(2); r.remitos.forEach(x => pm.expect(x.estado).to.eql(\"EnBolsinSaliente\")); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "27 Retiro de un bolsín Creado -> 409",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/bolsines/{{bolsin}}/retiro",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "bolsines",
+                "{{bolsin}}",
+                "retiro"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 409\", () => pm.response.to.have.status(409));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "39 Cerrar bolsín (precintar)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/bolsines/{{bolsin}}/precintar",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "bolsines",
+                "{{bolsin}}",
+                "precintar"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"numeroPrecinto\": \"{{precinto1}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Cerrado con precinto\", () => { const r = pm.response.json(); pm.expect(r.estado).to.eql(\"Cerrado\"); pm.expect(r.numeroPrecinto).to.eql(pm.collectionVariables.get(\"precinto1\")); });"
+                ]
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set(\"precinto1\", \"P-\" + Date.now());"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Modificar un bolsín Cerrado -> 409",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/bolsines/{{bolsin}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "bolsines",
+                "{{bolsin}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"remitos\": [\n    {{remitoA}}\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 409\", () => pm.response.to.have.status(409));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "40 Reabrir bolsín",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/bolsines/{{bolsin}}/abrir",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "bolsines",
+                "{{bolsin}}",
+                "abrir"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Creado sin precinto\", () => { const r = pm.response.json(); pm.expect(r.estado).to.eql(\"Creado\"); pm.expect(r.numeroPrecinto).to.be.null; });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "39 Cerrar con precinto nuevo",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/bolsines/{{bolsin}}/precintar",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "bolsines",
+                "{{bolsin}}",
+                "precintar"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"numeroPrecinto\": \"{{precinto2}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Cerrado\", () => { const r = pm.response.json(); pm.expect(r.estado).to.eql(\"Cerrado\"); });"
+                ]
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set(\"precinto2\", \"P-\" + Date.now());"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Precinto repetido en otro bolsín -> 409",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/bolsines/101/precintar",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "bolsines",
+                "101",
+                "precintar"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"numeroPrecinto\": \"{{precinto2}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 409\", () => pm.response.to.have.status(409));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "27 Registrar retiro (enviar)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/bolsines/{{bolsin}}/retiro",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "bolsines",
+                "{{bolsin}}",
+                "retiro"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Enviado\", () => { const r = pm.response.json(); pm.expect(r.estado).to.eql(\"Enviado\"); });",
+                  "pm.test(\"remitos EnBolsinEnviado\", () => { const r = pm.response.json(); r.remitos.forEach(x => pm.expect(x.estado).to.eql(\"EnBolsinEnviado\")); });",
+                  "pm.test(\"documentación EnBolsinEnviado\", () => { const r = pm.response.json(); r.remitos.forEach(x => x.detalles.forEach(d => pm.expect(d.documentacion.estado).to.eql(\"EnBolsinEnviado\"))); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "21 Eliminar un bolsín Enviado -> 409",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/bolsines/{{bolsin}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "bolsines",
+                "{{bolsin}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 409\", () => pm.response.to.have.status(409));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Recepción por una CM que no es destino -> 403",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/bolsines/{{bolsin}}/recepcion",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "bolsines",
+                "{{bolsin}}",
+                "recepcion"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"documentacionesNoRecibidas\": []\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 403\", () => pm.response.to.have.status(403));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Recepción con doc ajena al bolsín -> 400",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionRosario}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/bolsines/{{bolsin}}/recepcion",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "bolsines",
+                "{{bolsin}}",
+                "recepcion"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"documentacionesNoRecibidas\": [\n    999999\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "28 Recepción parcial (no llegó doc2)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionRosario}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/bolsines/{{bolsin}}/recepcion",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "bolsines",
+                "{{bolsin}}",
+                "recepcion"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"documentacionesNoRecibidas\": [\n    {{doc2}}\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Recibido\", () => { const r = pm.response.json(); pm.expect(r.estado).to.eql(\"Recibido\"); });",
+                  "pm.test(\"remito A RecibidoYAceptado\", () => { const r = pm.response.json(); pm.expect(r.remitos.find(x => x.numero == pm.collectionVariables.get(\"remitoA\")).estado).to.eql(\"RecibidoYAceptado\"); });",
+                  "pm.test(\"remito B RecibidoYAceptadoParcial\", () => { const r = pm.response.json(); pm.expect(r.remitos.find(x => x.numero == pm.collectionVariables.get(\"remitoB\")).estado).to.eql(\"RecibidoYAceptadoParcial\"); });",
+                  "pm.test(\"historial de 6 cambios de estado\", () => { const r = pm.response.json(); pm.expect(r.historial.map(h => h.estado)).to.eql([\"Creado\",\"Cerrado\",\"Creado\",\"Cerrado\",\"Enviado\",\"Recibido\"]); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "doc1 RecibidaYAceptada",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/documentaciones/{{doc1}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "documentaciones",
+                "{{doc1}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"documentación RecibidaYAceptada\", () => { const r = pm.response.json(); pm.expect(r.estado).to.eql(\"RecibidaYAceptada\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "doc2 NoRecibida",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/documentaciones/{{doc2}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "documentaciones",
+                "{{doc2}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"documentación NoRecibida\", () => { const r = pm.response.json(); pm.expect(r.estado).to.eql(\"NoRecibida\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Recibir de nuevo -> 409",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionRosario}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/bolsines/{{bolsin}}/recepcion",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "bolsines",
+                "{{bolsin}}",
+                "recepcion"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 409\", () => pm.response.to.have.status(409));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "05 Bolsín: eliminar y recepción completa",
+      "description": "",
+      "item": [
+        {
+          "name": "Registrar documentación 3",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/documentaciones",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "documentaciones"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tipoDocumento\": \"Expediente\",\n  \"asunto\": \"Expediente Postman 3\",\n  \"fechaPase\": \"2026-11-20\",\n  \"archivos\": [\n    {\n      \"nombreArchivo\": \"expediente.pdf\",\n      \"tituloDocumento\": \"Expediente Postman 3\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", () => pm.response.to.have.status(201));",
+                  "if (pm.response.code < 300) pm.collectionVariables.set(\"doc3\", pm.response.json().numero);",
+                  "pm.test(\"queda Registrada\", () => { const r = pm.response.json(); pm.expect(r.estado).to.eql(\"Registrada\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Generar remito C (doc3)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/remitos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "remitos"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"codigoCMDestino\": \"CM-ROS-02\",\n  \"documentaciones\": [\n    {{doc3}}\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", () => pm.response.to.have.status(201));",
+                  "if (pm.response.code < 300) pm.collectionVariables.set(\"remitoC\", pm.response.json().numero);",
+                  "pm.test(\"remito Creado\", () => { const r = pm.response.json(); pm.expect(r.estado).to.eql(\"Creado\"); });",
+                  "pm.test(\"documentación EnRemito\", () => { const r = pm.response.json(); r.detalles.forEach(d => pm.expect(d.documentacion.estado).to.eql(\"EnRemito\")); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "19 Generar bolsín (C)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/bolsines",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "bolsines"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"codigoCMDestino\": \"CM-ROS-02\",\n  \"remitos\": [\n    {{remitoC}}\n  ],\n  \"peso\": 300\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", () => pm.response.to.have.status(201));",
+                  "if (pm.response.code < 300) pm.collectionVariables.set(\"bolsin2\", pm.response.json().numeroBolsin);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "39 Cerrar",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/bolsines/{{bolsin2}}/precintar",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "bolsines",
+                "{{bolsin2}}",
+                "precintar"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"numeroPrecinto\": \"{{precinto3}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set(\"precinto3\", \"P-\" + Date.now());"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "21 Eliminar bolsín Cerrado",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/bolsines/{{bolsin2}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "bolsines",
+                "{{bolsin2}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"DeBaja\", () => { const r = pm.response.json(); pm.expect(r.estado).to.eql(\"DeBaja\"); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Remito C vuelve a Creado y doc3 a EnRemito",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/remitos/{{remitoC}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "remitos",
+                "{{remitoC}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"remito Creado\", () => { const r = pm.response.json(); pm.expect(r.estado).to.eql(\"Creado\"); });",
+                  "pm.test(\"documentación EnRemito\", () => { const r = pm.response.json(); r.detalles.forEach(d => pm.expect(d.documentacion.estado).to.eql(\"EnRemito\")); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Eliminar un bolsín DeBaja -> 409",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/bolsines/{{bolsin2}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "bolsines",
+                "{{bolsin2}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 409\", () => pm.response.to.have.status(409));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "19 Generar otro bolsín con el remito C",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/bolsines",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "bolsines"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"codigoCMDestino\": \"CM-ROS-02\",\n  \"remitos\": [\n    {{remitoC}}\n  ],\n  \"peso\": 300\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", () => pm.response.to.have.status(201));",
+                  "if (pm.response.code < 300) pm.collectionVariables.set(\"bolsin3\", pm.response.json().numeroBolsin);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "39 Cerrar",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/bolsines/{{bolsin3}}/precintar",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "bolsines",
+                "{{bolsin3}}",
+                "precintar"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"numeroPrecinto\": \"{{precinto4}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set(\"precinto4\", \"P-\" + Date.now());"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "27 Retiro",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/bolsines/{{bolsin3}}/retiro",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "bolsines",
+                "{{bolsin3}}",
+                "retiro"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "28 Recepción completa (contenido igual)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionRosario}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/bolsines/{{bolsin3}}/recepcion",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "bolsines",
+                "{{bolsin3}}",
+                "recepcion"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"documentacionesNoRecibidas\": []\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Recibido\", () => { const r = pm.response.json(); pm.expect(r.estado).to.eql(\"Recibido\"); });",
+                  "pm.test(\"remito RecibidoYAceptado y doc RecibidaYAceptada\", () => { const r = pm.response.json(); r.remitos.forEach(x => { pm.expect(x.estado).to.eql(\"RecibidoYAceptado\"); x.detalles.forEach(d => pm.expect(d.documentacion.estado).to.eql(\"RecibidaYAceptada\")); }); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Listar bolsines Recibido de Rosario",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionRosario}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/bolsines?estado=Recibido",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "bolsines"
+              ],
+              "query": [
+                {
+                  "key": "estado",
+                  "value": "Recibido"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"incluye el recibido\", () => { const r = pm.response.json(); pm.expect(r.map(b => b.numeroBolsin)).to.include(Number(pm.collectionVariables.get(\"bolsin3\"))); });"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "06 Cerrar sesión",
+      "description": "",
+      "item": [
+        {
+          "name": "Cerrar sesión Córdoba",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/sesiones",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "sesiones"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 204\", () => pm.response.to.have.status(204));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Sesión cerrada -> 401",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Sesion-Id",
+                "value": "{{sesionCordoba}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/sesiones/actual",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "sesiones",
+                "actual"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 401\", () => pm.response.to.have.status(401));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
